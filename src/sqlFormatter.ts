@@ -36,6 +36,7 @@ export interface FormatOptions {
 	indent: string;
 	uppercase: boolean;
 	newline: NewlineOptions;
+	trailingNewline: boolean;
 	lineWidth: number;
 	linesBetweenQueries: number;
 }
@@ -49,6 +50,7 @@ export interface FormatOptions {
  *  @param {NewlineOptions} cfg.newline Determines when to break words onto a newline;
  *  	@param {String} cfg.newline.mode always | never | lineWidth (break only when > line width) | itemCount (break when > itemCount) | hybrid (lineWidth OR itemCount)
  *  	@param {Integer} cfg.newline.itemCount Used when mode is itemCount or hybrid, must be >=0
+ *  @param {Boolean} cfg.trailingNewline Whether to end formatted query with newline
  *  @param {Boolean} cfg.uppercase Converts keywords to uppercase
  *  @param {Integer} cfg.linesBetweenQueries How many line breaks between queries
  *  @param {ParamItems} cfg.params Collection of params for placeholder replacement
@@ -79,9 +81,10 @@ export const format = (query: string, cfg: Partial<FormatOptions> = {}): string 
 		language: 'sql',
 		indent: '  ',
 		uppercase: true,
-		linesBetweenQueries: 1,
 		newline: { mode: 'always' },
+		trailingNewline: true,
 		lineWidth: 50,
+		linesBetweenQueries: 1,
 	};
 	cfg = { ...defaultOptions, ...cfg };
 

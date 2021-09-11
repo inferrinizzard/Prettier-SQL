@@ -129,6 +129,10 @@ export default class Formatter {
 				formattedQuery = this.formatWithSpaces(token, formattedQuery);
 			}
 		});
+
+		formattedQuery = formattedQuery.trimEnd();
+		if (this.cfg.trailingNewline) formattedQuery += '\n';
+
 		return formattedQuery;
 	}
 
