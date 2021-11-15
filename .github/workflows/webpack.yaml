@@ -26,7 +26,13 @@ jobs:
       run: yarn install --ignore-scripts
       
     - name: Test
-      run: yarn test
+      run: yarn test --coverage
 
     - name: Build
       run: yarn build
+
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@1.1.3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
