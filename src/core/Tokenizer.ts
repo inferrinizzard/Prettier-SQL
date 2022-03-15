@@ -124,6 +124,10 @@ export default class Tokenizer {
 			if (input.length) {
 				// Get the next token and the token type
 				token = this.getNextToken(input, token);
+				// Token can be empty
+				if (!token) {
+					return tokens;
+				}
 				// Advance the string
 				input = input.substring(token.value.length);
 
