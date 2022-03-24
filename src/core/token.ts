@@ -33,9 +33,11 @@ export const testToken = (compareToken: Token) => (token: Token) =>
 export const isToken = {
 	AS: testToken({ value: 'AS', type: TokenType.RESERVED_KEYWORD }),
 	AND: testToken({ value: 'AND', type: TokenType.RESERVED_LOGICAL_OPERATOR }),
+	BEGIN: testToken({ value: 'BEGIN', type: TokenType.RESERVED_COMMAND }),
 	BETWEEN: testToken({ value: 'BETWEEN', type: TokenType.RESERVED_KEYWORD }),
-	CASE: testToken({ value: 'CASE', type: TokenType.BLOCK_START }),
 	BY: testToken({ value: 'BY', type: TokenType.RESERVED_KEYWORD }),
+	CASE: testToken({ value: 'CASE', type: TokenType.BLOCK_START }),
+	DELIMITER: testToken({ value: 'DELIMITER', type: TokenType.WORD }),
 	END: testToken({ value: 'END', type: TokenType.BLOCK_END }),
 	FROM: testToken({ value: 'FROM', type: TokenType.RESERVED_COMMAND }),
 	LATERAL: testToken({ value: 'LATERAL', type: TokenType.RESERVED_DEPENDENT_CLAUSE }),
