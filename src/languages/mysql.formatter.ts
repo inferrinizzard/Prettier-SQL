@@ -1348,6 +1348,22 @@ export default class MySqlFormatter extends Formatter {
 	}
 
 	tokenOverride(token: Token) {
+		if (this.tokenLookBehind()?.type === TokenType.BLOCK_END && isToken.BEGIN(token)) {
+			return { type: TokenType.BLOCK_START, value: '\n' + token.value, whitespaceBefore: '' };
+		}
+
+		if (isToken.DELIMITER(token) && this.tokenLookBehind()?.type === TokenType.OPERATOR) {
+			return { type: TokenType.RESERVED_KEYWORD, value: '\n' + token.value };
+		}
+
+		if (
+			token.type === TokenType.OPERATOR &&
+			isToken.DELIMITER(this.tokenLookBehind()) &&
+			this.tokenLookAhead()?.type !== TokenType.OPERATOR
+		) {
+			return { type: TokenType.STRING, value: token.value };
+		}
+
 		// [LATERAL] ( ...
 		if (isToken.LATERAL(token) && this.tokenLookAhead()?.type === TokenType.BLOCK_START) {
 			// This is a subquery, treat it like a join

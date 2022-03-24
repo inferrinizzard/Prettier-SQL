@@ -25,4 +25,15 @@ describe('MySqlFormatter', () => {
         foo;
     `);
 	});
+
+	it('supports DELIMITER', () => {
+		const result = format('DELIMITER $$ CREATE PROCEDURE sp_name() BEGIN END $$	 DELIMITER ;');
+		expect(result).toBe(dedent`
+        DELIMITER $$
+        CREATE PROCEDURE
+          sp_name() BEGIN
+        END $$
+        DELIMITER ;
+        `);
+	});
 });

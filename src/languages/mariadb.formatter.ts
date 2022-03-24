@@ -1185,6 +1185,22 @@ export default class MariaDbFormatter extends Formatter {
 	}
 
 	tokenOverride(token: Token) {
+		if (this.tokenLookBehind()?.type === TokenType.BLOCK_END && isToken.BEGIN(token)) {
+			return { type: TokenType.BLOCK_START, value: '\n' + token.value, whitespaceBefore: '' };
+		}
+
+		if (isToken.DELIMITER(token) && this.tokenLookBehind()?.type === TokenType.OPERATOR) {
+			return { type: TokenType.RESERVED_KEYWORD, value: '\n' + token.value };
+		}
+
+		if (
+			token.type === TokenType.OPERATOR &&
+			isToken.DELIMITER(this.tokenLookBehind()) &&
+			this.tokenLookAhead()?.type !== TokenType.OPERATOR
+		) {
+			return { type: TokenType.STRING, value: token.value };
+		}
+
 		// [SET] ( ...
 		if (isToken.SET(token) && this.tokenLookAhead()?.value === '(') {
 			// This is SET datatype, not SET statement
